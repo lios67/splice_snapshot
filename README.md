@@ -1,4 +1,4 @@
-# Video Frame Extractor
+# Splice Snapshot
 
 A simple tool to *extract frames* from video files and export them as a ZIP.
 
