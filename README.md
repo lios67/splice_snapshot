@@ -1,6 +1,6 @@
 # Splice Snapshot
 
-A simple tool to *extract frames* from video files and export them as a ZIP.
+A simple tool to *extract frames* from video files and export them as a ZIP of png image files.
 
 ## How to Use
 
