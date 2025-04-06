@@ -24,6 +24,14 @@ A simple tool to *extract frames* from video files and export them as a ZIP of p
 - FFmpeg is included—no extra install needed!
 - Supported on Windows 64-bit and Linux 64-bit only.
 
+## Use Cases
+- **Video Analysis**: Extract frames every x seconds to study motion in wildlife footage.
+- **Motion Analysis**: Extract frames every x seconds to study motion in realworld footage or animations.
+- **Thumbnails**: Grab frames every x seconds to pick the perfect YouTube thumbnail.
+- **GIF Creation**: Pull frames every x seconds from a funny clip for a quick GIF.
+- **Education**: Use frames every x seconds to teach physics with a dropping ball video.
+- **Art**: Collect frames every x seconds for a nature-inspired collage.
+
 ## Notes
 - Frames are saved temporarily and cleared when you pick a new video.
 - Ensure your video file is in a supported format (e.g., MP4, AVI).
@@ -39,11 +47,7 @@ A simple tool to *extract frames* from video files and export them as a ZIP of p
 ## Links
 | Resource          | Link                                                                 |
 |-------------------|----------------------------------------------------------------------|
-| 📥 Releases       | [Download](https://github.com/your-username/video-frame-extractor/releases) |
+| 📥 Releases       | [Download](https://github.com/lios67/splice_snapshot/releases/tag/v1.0.0) |
 | 📜 Source Code    | [GitHub](https://github.com/lios67/splice_snapshot)    |
 | 🎥 FFmpeg (Win)   | [Windows Builds](https://www.gyan.dev/ffmpeg/builds/)               |
 | 🎥 FFmpeg (Linux) | [Linux Builds](https://johnvansickle.com/ffmpeg/)
-
-## Download App
-https://drive.google.com/file/d/1CfQOGKCO5sSa-e66tK5xg6j8iSPRjs8y/view?usp=sharing
-https://drive.google.com/file/d/1uSDST5VWp929LLUpvmEQ8U_amOg4M8Sn/view?usp=sharing
