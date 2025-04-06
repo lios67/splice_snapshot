@@ -35,3 +35,7 @@ A simple tool to *extract frames* from video files and export them as a ZIP of p
 
 ## Support
 - For issues, contact oscar.lin9675@gmail.com or https://github.com/lios67.
+
+## Download App
+https://drive.google.com/file/d/1CfQOGKCO5sSa-e66tK5xg6j8iSPRjs8y/view?usp=sharing
+https://drive.google.com/file/d/1uSDST5VWp929LLUpvmEQ8U_amOg4M8Sn/view?usp=sharing
