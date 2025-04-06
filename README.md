@@ -40,7 +40,7 @@ A simple tool to *extract frames* from video files and export them as a ZIP of p
 | Resource          | Link                                                                 |
 |-------------------|----------------------------------------------------------------------|
 | 📥 Releases       | [Download](https://github.com/your-username/video-frame-extractor/releases) |
-| 📜 Source Code    | [GitHub](https://github.com/your-username/video-frame-extractor)    |
+| 📜 Source Code    | [GitHub](https://github.com/lios67/splice_snapshot)    |
 | 🎥 FFmpeg (Win)   | [Windows Builds](https://www.gyan.dev/ffmpeg/builds/)               |
 | 🎥 FFmpeg (Linux) | [Linux Builds](https://johnvansickle.com/ffmpeg/)
 
