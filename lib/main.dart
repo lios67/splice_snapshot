@@ -15,7 +15,6 @@ void main() {
 // Main app widget defining the app's theme and home page
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -45,7 +44,6 @@ class MyApp extends StatelessWidget {
 
 class VideoFrameHomePage extends StatefulWidget {
   const VideoFrameHomePage({super.key});
-
   @override
   State<VideoFrameHomePage> createState() => _VideoFrameHomePageState();
 }
@@ -60,14 +58,12 @@ class _VideoFrameHomePageState extends State<VideoFrameHomePage> {
   final TextEditingController _intervalController = TextEditingController(text: '1'); // Controls frame extraction interval input
   final FocusNode _focusNode = FocusNode(); // Manages keyboard focus for navigation
   final ScrollController _scrollController = ScrollController(); // Controls horizontal scrolling of thumbnails
-
   // Picks a video file from the desktop file system
   Future<void> _pickVideo() async {
     if (kDebugMode) {
       print('Picking video...');
     }
     FilePickerResult? result = await FilePicker.platform.pickFiles(type: FileType.video);
-
     if (result != null) {
       if (kDebugMode) {
         print('Video selected: ${result.files.single.path}');
@@ -112,9 +108,11 @@ class _VideoFrameHomePageState extends State<VideoFrameHomePage> {
   // Gets the duration of the selected video using ffprobe
   Future<double?> _getVideoDuration(String videoPath) async {
     try {
+      //if running the code on terminal make sure you have ffmpeg installed then remove ffprobePath and -
       final ffprobePath = Platform.isWindows 
           ? '${Directory.current.path}\\bin\\ffprobe.exe' 
           : '${Directory.current.path}/ffprobe';
+      //-change it to 'ffprobe'
       final result = await Process.run(ffprobePath, [
         '-v',
         'error',
@@ -124,7 +122,6 @@ class _VideoFrameHomePageState extends State<VideoFrameHomePage> {
         'default=noprint_wrappers=1:nokey=1',
         videoPath,
       ]);
-
       if (result.exitCode == 0) {
         final duration = double.tryParse(result.stdout.toString().trim());
         if (kDebugMode) {
@@ -148,32 +145,29 @@ class _VideoFrameHomePageState extends State<VideoFrameHomePage> {
   // Extracts frames from the video using ffmpeg based on the interval
   Future<void> _extractFrames() async {
     if (_videoFile == null) return;
-
     setState(() => _isProcessing = true); // Shows loading indicator
-
     await _clearPreviousFrames();
     setState(() {
       _framePaths = [];
       _selectedFrame = null; // Clears previous frames from UI
     });
-
     final tempDir = await getTemporaryDirectory();
     final outputPattern = '${tempDir.path}${Platform.pathSeparator}$_currentFramePrefix%03d.png'; // Output pattern for frame files
     double interval = double.tryParse(_intervalController.text) ?? 1.0; 
     if (interval <= 0) interval = 1.0; // Ensures a valid interval
     final fps = 1 / interval;// Frames per second based on interval
-
     final duration = await _getVideoDuration(_videoFile!.path);
     if (duration == null) {
       setState(() => _isProcessing = false);
       return;
     }
+    //if running the code on terminal make sure you have ffmpeg installed then remove ffmpegPath and -
     final ffmpegPath = Platform.isWindows 
         ? '${Directory.current.path}\\bin\\ffmpeg.exe' 
         : '${Directory.current.path}/ffmpeg';
     final arguments = ['-i', _videoFile!.path, '-vf', 'fps=$fps', '-y', outputPattern];
-
     try {
+      //-change it to 'ffmpeg'
       final result = await Process.run(ffmpegPath, arguments);
       if (result.exitCode == 0) {
         List<String> tempFramePaths = [];
@@ -216,10 +210,8 @@ class _VideoFrameHomePageState extends State<VideoFrameHomePage> {
   // Changes the selected frame using arrow keys or scroll
   void _changeFrame(int direction) {
     if (_framePaths.isEmpty || _selectedFrame == null) return;
-
     final currentIndex = _framePaths.indexOf(_selectedFrame!);
     final newIndex = currentIndex + direction;
-
     if (newIndex >= 0 && newIndex < _framePaths.length) {
       setState(() => _selectedFrame = _framePaths[newIndex]);
       _scrollToSelectedFrame();
@@ -229,10 +221,8 @@ class _VideoFrameHomePageState extends State<VideoFrameHomePage> {
   // Handles mouse scroll to navigate frames
   void _handleScroll(PointerScrollEvent event) {
     if (_framePaths.isEmpty || _selectedFrame == null) return;
-
     final currentIndex = _framePaths.indexOf(_selectedFrame!);
     int newIndex = event.scrollDelta.dy > 0 ? currentIndex + 1 : currentIndex - 1;
-
     if (newIndex >= 0 && newIndex < _framePaths.length) {
       setState(() => _selectedFrame = _framePaths[newIndex]);
       _scrollToSelectedFrame();
@@ -242,15 +232,12 @@ class _VideoFrameHomePageState extends State<VideoFrameHomePage> {
   // Scrolls the thumbnail strip to the selected frame
   void _scrollToSelectedFrame() {
     if (_selectedFrame == null || _framePaths.isEmpty) return;
-
     final index = _framePaths.indexOf(_selectedFrame!);
     const thumbnailWidth = 96.0; // Total width per thumbnail (image + padding + margin) 80px image + 8px padding + 8px margin
     final targetOffset = index * thumbnailWidth;
-
     final maxScrollExtent = _scrollController.position.maxScrollExtent;
     final currentOffset = _scrollController.offset;
     final viewportWidth = _scrollController.position.viewportDimension;
-
     if (targetOffset < currentOffset || targetOffset > currentOffset + viewportWidth - thumbnailWidth) {
       double newOffset = targetOffset - (viewportWidth / 2) + (thumbnailWidth / 2);
       newOffset = newOffset.clamp(0.0, maxScrollExtent); // Keeps offset within bounds
@@ -269,7 +256,6 @@ class _VideoFrameHomePageState extends State<VideoFrameHomePage> {
       if (await file.exists()) {
         await file.delete();
       }
-
       setState(() {
         _framePaths.remove(framePath);
         if (_selectedFrame == framePath) {
@@ -287,9 +273,7 @@ class _VideoFrameHomePageState extends State<VideoFrameHomePage> {
   // Exports all frames to a ZIP file
   Future<String?> _exportFramesToZip() async {
     if (_framePaths.isEmpty) return 'No frames available to export';
-
     setState(() => _isProcessing = true);
-
     try {
       final archive = Archive();
       for (var framePath in _framePaths) {
@@ -300,17 +284,14 @@ class _VideoFrameHomePageState extends State<VideoFrameHomePage> {
           archive.addFile(ArchiveFile(fileName, frameBytes.length, frameBytes)); // Adds frame to archive
         }
       }
-
       final zipEncoder = ZipEncoder();
       final zipBytes = zipEncoder.encode(archive);
-
       String? outputPath = await FilePicker.platform.saveFile(
         dialogTitle: 'Save ZIP File',
         fileName: 'video_frames_${_currentFramePrefix}zip',
         type: FileType.custom,
         allowedExtensions: ['zip'],
       );
-
       if (outputPath != null) {
         if (!outputPath.endsWith('.zip')) outputPath += '.zip';
         final zipFile = File(outputPath);
