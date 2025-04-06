@@ -30,8 +30,8 @@ A simple tool to *extract frames* from video files and export them as a ZIP.
 - Make sure the video is not to big. (GB<1.5 for faster loading times)
 - Make sure to check on the amount of frames extracted, too much and it will eat all of your ram.(In my testing I have 32GM of ram and it took all of it when the frames was too much for memory)
 
-##License
+## License
 - This app uses Flutter and FFmpeg. FFmpeg is under the GPL (v3 or later). See LICENSE.txt for details.
 
-##Support
+## Support
 - For issues, contact oscar.lin9675@gmail.com or https://github.com/lios67.
